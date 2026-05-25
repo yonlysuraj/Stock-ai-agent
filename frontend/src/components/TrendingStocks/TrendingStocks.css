@@ -14,7 +14,7 @@
 }
 
 .trending-stocks .icon {
-    color: var(--primary-color, #22c55e);
+    color: var(--success);
 }
 
 .trending-grid {
@@ -41,9 +41,9 @@
 
 .trending-item:hover {
     background: var(--glass-bg-hover);
-    border-color: rgba(59, 130, 246, 0.25);
+    border-color: var(--glass-border-hover);
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+    box-shadow: var(--glass-shadow);
 }
 
 .ticker-symbol {
@@ -56,4 +56,4 @@
 .ticker-name {
     font-size: 0.85rem;
     color: var(--text-secondary);
-}
+}

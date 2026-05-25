@@ -34,12 +34,12 @@
     width: 32px;
     height: 32px;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 100%);
     color: var(--white);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
 }
 
 .navbar-title {
@@ -64,7 +64,7 @@
 .navbar-toggle:hover {
     background-color: var(--glass-bg-hover);
     color: var(--text-primary);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
 }
 
 /* Content Container (Links + Status) */
@@ -101,9 +101,9 @@
 }
 
 .navbar-link.active {
-    color: #3b82f6;
-    background: rgba(59, 130, 246, 0.08);
-    border: 1px solid rgba(59, 130, 246, 0.15);
+    color: var(--accent);
+    background: var(--info-bg);
+    border: 1px solid var(--glass-border-hover);
     font-weight: 600;
 }
 
@@ -238,4 +238,4 @@
     border-color: rgba(255, 255, 255, 0.15);
     transform: scale(1.05);
 }
-
+

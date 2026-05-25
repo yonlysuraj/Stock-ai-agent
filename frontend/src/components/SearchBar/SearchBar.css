@@ -15,7 +15,7 @@
     letter-spacing: -0.04em;
     color: var(--text-primary);
     margin-bottom: var(--space-2);
-    background: linear-gradient(to right, #ffffff 30%, #a7f3d0 100%);
+    background: linear-gradient(to right, var(--accent-light) 30%, var(--success) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -49,8 +49,8 @@
 }
 
 .search-input-wrapper:focus-within {
-    border-color: rgba(59, 130, 246, 0.45);
-    box-shadow: var(--glass-shadow), 0 0 20px rgba(59, 130, 246, 0.25);
+    border-color: var(--glass-border-hover);
+    box-shadow: var(--glass-shadow), 0 0 20px rgba(37, 99, 235, 0.2);
     background: var(--glass-bg-hover);
 }
 
@@ -193,4 +193,4 @@
     .period-selector {
         gap: var(--space-1);
     }
-}
+}

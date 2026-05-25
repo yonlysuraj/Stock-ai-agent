@@ -11,7 +11,7 @@
 }
 
 .price-chart-card:hover {
-  border-color: rgba(59, 130, 246, 0.25);
+  border-color: var(--glass-border-hover);
   box-shadow: var(--card-shadow-hover);
   transform: translateY(-2px);
   background: var(--glass-bg-hover);

@@ -43,9 +43,9 @@
     inset: 0;
     border-radius: inherit;
     background: linear-gradient(135deg,
-            rgba(59, 130, 246, 0.05) 0%,
-            rgba(59, 130, 246, 0.04) 50%,
-            rgba(59, 130, 246, 0.05) 100%);
+            rgba(59, 130, 246, 0.04) 0%,
+            rgba(59, 130, 246, 0.02) 50%,
+            rgba(59, 130, 246, 0.04) 100%);
     opacity: 0;
     transition: opacity 0.35s ease;
     pointer-events: none;
@@ -60,11 +60,9 @@
 .market-card:hover,
 .market-card:focus-visible {
     transform: translateY(-4px) scale(1.02);
-    border-color: rgba(59, 130, 246, 0.25);
+    border-color: var(--glass-border-hover);
     background: var(--glass-bg-hover);
-    box-shadow:
-        0 8px 32px rgba(59, 130, 246, 0.15),
-        0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--glass-shadow);
 }
 
 .market-card:hover::before,
@@ -82,7 +80,7 @@
     margin-top: 0.75rem;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--primary-color, #22c55e);
+    color: var(--accent);
     opacity: 0;
     transform: translateX(-6px);
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -111,11 +109,11 @@
 
 /* Trend Icons - Using semantic classes */
 .trend-icon.positive {
-    color: var(--success, #22c55e);
+    color: var(--success);
 }
 
 .trend-icon.negative {
-    color: var(--danger, #ef4444);
+    color: var(--danger);
 }
 
 
@@ -158,4 +156,4 @@
         grid-template-columns: 1fr;
         gap: 1rem;
     }
-}
+}
