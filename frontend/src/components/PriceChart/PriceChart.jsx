@@ -70,11 +70,12 @@ export default function PriceChart({ history = [] }) {
           <polyline
             points={path}
             fill="none"
-            stroke="#2563eb"
-            strokeWidth="2"
+            stroke="#3b82f6"
+            strokeWidth="2.5"
             strokeLinejoin="round"
             strokeLinecap="round"
           />
+
         </svg>
       </div>
       <div className="price-chart-footer">

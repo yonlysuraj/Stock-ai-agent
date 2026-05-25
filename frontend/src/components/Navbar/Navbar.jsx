@@ -1,17 +1,28 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BarChart3, TrendingUp, MessageSquareText, Activity, Menu, X } from 'lucide-react';
+import { BarChart3, TrendingUp, MessageSquareText, Activity, Menu, X, Sun, Moon } from 'lucide-react';
 import './Navbar.css';
 
 export default function Navbar() {
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem('theme') || 'dark';
+    });
 
-    const navLinks = [
-        { to: '/', label: 'Dashboard', icon: BarChart3 },
-        { to: '/watchlist', label: 'Watchlist', icon: TrendingUp },
-        { to: '/sentiment', label: 'Sentiment', icon: MessageSquareText },
-    ];
+    // Sync theme with document element and save to storage
+    useEffect(() => {
+        if (theme === 'light') {
+            document.documentElement.classList.add('light-theme');
+        } else {
+            document.documentElement.classList.remove('light-theme');
+        }
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    };
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -19,6 +30,12 @@ export default function Navbar() {
     useEffect(() => {
         setIsOpen(false);
     }, [location.pathname]);
+
+    const navLinks = [
+        { to: '/', label: 'Dashboard', icon: BarChart3 },
+        { to: '/watchlist', label: 'Watchlist', icon: TrendingUp },
+        { to: '/sentiment', label: 'Sentiment', icon: MessageSquareText },
+    ];
 
     return (
         <nav className="navbar">
@@ -54,9 +71,19 @@ export default function Navbar() {
                         })}
                     </div>
 
-                    <div className="navbar-status">
-                        <div className="status-dot" />
-                        <span className="status-text">Live</span>
+                    <div className="navbar-actions">
+                        <button 
+                            className="theme-toggle-btn" 
+                            onClick={toggleTheme} 
+                            aria-label="Toggle visual theme"
+                        >
+                            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                        </button>
+
+                        <div className="navbar-status">
+                            <div className="status-dot" />
+                            <span className="status-text">Live</span>
+                        </div>
                     </div>
                 </div>
             </div>

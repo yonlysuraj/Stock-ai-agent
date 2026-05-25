@@ -6,14 +6,15 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-family: var(--font-family);
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 1rem;
     color: var(--text-primary);
 }
 
 .icon {
-    color: var(--primary-color, #3b82f6);
+    color: var(--primary-color, #22c55e);
 }
 
 .news-grid {
@@ -23,14 +24,17 @@
 }
 
 .news-item {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     border-radius: 12px;
     padding: 1.25rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--glass-shadow);
     text-decoration: none;
     position: relative;
     overflow: hidden;
@@ -38,7 +42,9 @@
 
 .news-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: var(--glass-bg-hover);
+    border-color: rgba(59, 130, 246, 0.25);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
 }
 
 .news-item:hover .external-icon {
@@ -53,6 +59,7 @@
 }
 
 .news-title {
+    font-family: var(--font-family);
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -81,8 +88,8 @@
     align-items: center;
     justify-content: space-between;
     font-size: 0.85rem;
-    color: var(--text-tertiary, #64748b);
-    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-top: 1px solid var(--glass-border);
     padding-top: 0.75rem;
     margin-top: auto;
 }
@@ -92,7 +99,7 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
-    color: var(--primary-color);
+    color: var(--primary-color, #22c55e);
     opacity: 0;
     transform: translate(-4px, 4px);
     transition: all 0.2s ease;
@@ -102,11 +109,10 @@
 @media (max-width: 480px) {
     .news-grid {
         grid-template-columns: 1fr;
-        /* Force single column on small mobile */
         gap: 1rem;
     }
 
     .news-item {
         padding: 1rem;
     }
-}
+}

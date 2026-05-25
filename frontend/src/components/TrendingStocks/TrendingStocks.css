@@ -6,14 +6,15 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-family: var(--font-family);
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 1rem;
     color: var(--text-primary);
 }
 
 .trending-stocks .icon {
-    color: var(--primary-color, #3b82f6);
+    color: var(--primary-color, #22c55e);
 }
 
 .trending-grid {
@@ -23,12 +24,15 @@
 }
 
 .trending-item {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     border-radius: 8px;
     padding: 0.75rem 1rem;
     text-align: left;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--glass-shadow);
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -36,13 +40,14 @@
 }
 
 .trending-item:hover {
-    background: var(--card-bg-hover, var(--border-color));
+    background: var(--glass-bg-hover);
+    border-color: rgba(59, 130, 246, 0.25);
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    /* Softer shadow */
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
 }
 
 .ticker-symbol {
+    font-family: var(--font-family);
     font-weight: 700;
     color: var(--text-primary);
     font-size: 1rem;
@@ -51,4 +56,4 @@
 .ticker-name {
     font-size: 0.85rem;
     color: var(--text-secondary);
-}
+}

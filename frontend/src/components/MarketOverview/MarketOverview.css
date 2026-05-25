@@ -4,8 +4,9 @@
 }
 
 .section-title {
+    font-family: var(--font-family);
     font-size: 1.5rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 1rem;
     color: var(--text-primary);
 }
@@ -18,17 +19,21 @@
 }
 
 .market-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
     border-radius: 14px;
     padding: 1.25rem;
     cursor: pointer;
     position: relative;
     outline: none;
     overflow: hidden;
+    box-shadow: var(--glass-shadow);
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
         box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color 0.35s ease;
+        border-color 0.35s ease,
+        background 0.35s ease;
 }
 
 /* Animated gradient shimmer overlay */
@@ -38,9 +43,9 @@
     inset: 0;
     border-radius: inherit;
     background: linear-gradient(135deg,
-            rgba(59, 130, 246, 0.08) 0%,
-            rgba(139, 92, 246, 0.06) 50%,
-            rgba(16, 185, 129, 0.08) 100%);
+            rgba(59, 130, 246, 0.05) 0%,
+            rgba(59, 130, 246, 0.04) 50%,
+            rgba(59, 130, 246, 0.05) 100%);
     opacity: 0;
     transition: opacity 0.35s ease;
     pointer-events: none;
@@ -55,10 +60,11 @@
 .market-card:hover,
 .market-card:focus-visible {
     transform: translateY(-4px) scale(1.02);
-    border-color: rgba(59, 130, 246, 0.4);
+    border-color: rgba(59, 130, 246, 0.25);
+    background: var(--glass-bg-hover);
     box-shadow:
-        0 8px 24px rgba(59, 130, 246, 0.12),
-        0 2px 8px rgba(0, 0, 0, 0.06);
+        0 8px 32px rgba(59, 130, 246, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .market-card:hover::before,
@@ -76,7 +82,7 @@
     margin-top: 0.75rem;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--primary-color, #3b82f6);
+    color: var(--primary-color, #22c55e);
     opacity: 0;
     transform: translateX(-6px);
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -97,6 +103,7 @@
 }
 
 .symbol {
+    font-family: var(--font-family);
     font-weight: 700;
     font-size: 1.1rem;
     color: var(--text-primary);
@@ -104,13 +111,11 @@
 
 /* Trend Icons - Using semantic classes */
 .trend-icon.positive {
-    color: var(--success-color, #10b981);
-    /* Use custom property or fallback */
+    color: var(--success, #22c55e);
 }
 
 .trend-icon.negative {
-    color: var(--danger-color, #ef4444);
-    /* Use custom property or fallback */
+    color: var(--danger, #ef4444);
 }
 
 
@@ -122,6 +127,7 @@
 }
 
 .price {
+    font-family: var(--font-code);
     font-size: 1.4rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -139,18 +145,17 @@
 }
 
 .change.positive {
-    color: var(--success-color, #10b981);
+    color: var(--success, #22c55e);
 }
 
 .change.negative {
-    color: var(--danger-color, #ef4444);
+    color: var(--danger, #ef4444);
 }
 
 /* Mobile Responsive */
 @media (max-width: 480px) {
     .market-cards {
         grid-template-columns: 1fr;
-        /* Force single column on small mobile */
         gap: 1rem;
     }
-}
+}

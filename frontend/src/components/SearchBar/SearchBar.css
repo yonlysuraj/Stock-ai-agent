@@ -9,16 +9,20 @@
 }
 
 .search-title {
+    font-family: var(--font-family);
     font-size: var(--font-size-4xl);
     font-weight: 800;
-    letter-spacing: -0.03em;
-    color: var(--gray-900);
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
     margin-bottom: var(--space-2);
+    background: linear-gradient(to right, #ffffff 30%, #a7f3d0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .search-subtitle {
     font-size: var(--font-size-md);
-    color: var(--gray-500);
+    color: var(--text-secondary);
     font-weight: 400;
     max-width: 90%;
     margin: 0 auto;
@@ -34,21 +38,24 @@
 .search-input-wrapper {
     display: flex;
     align-items: center;
-    background: var(--white);
-    border: 1px solid var(--gray-200);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-xl);
     padding: var(--space-1) var(--space-1) var(--space-1) var(--space-5);
     transition: all var(--transition-base);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .search-input-wrapper:focus-within {
-    border-color: var(--gray-400);
-    box-shadow: var(--shadow-md), 0 0 0 3px rgba(0, 0, 0, 0.04);
+    border-color: rgba(59, 130, 246, 0.45);
+    box-shadow: var(--glass-shadow), 0 0 20px rgba(59, 130, 246, 0.25);
+    background: var(--glass-bg-hover);
 }
 
 .search-icon {
-    color: var(--gray-400);
+    color: var(--text-secondary);
     flex-shrink: 0;
 }
 
@@ -57,16 +64,17 @@
     border: none;
     background: none;
     padding: var(--space-3) var(--space-4);
+    font-family: var(--font-family);
     font-size: var(--font-size-md);
     font-weight: 500;
-    color: var(--gray-900);
+    color: var(--text-primary);
     letter-spacing: 0.01em;
     width: 100%;
-    /* Ensure full width */
 }
 
 .search-input::placeholder {
-    color: var(--gray-400);
+    color: var(--text-secondary);
+    opacity: 0.7;
     font-weight: 400;
 }
 
@@ -74,18 +82,19 @@
     width: 40px;
     height: 40px;
     border-radius: var(--radius-lg);
-    background: var(--gray-900);
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
     color: var(--white);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     transition: all var(--transition-fast);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.25);
 }
 
 .search-btn:hover:not(:disabled) {
-    background: var(--gray-700);
     transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
 }
 
 .search-btn:disabled {
@@ -104,7 +113,6 @@
     gap: var(--space-2);
     margin-top: var(--space-4);
     flex-wrap: wrap;
-    /* Allow wrapping on small screens */
 }
 
 .period-chip {
@@ -112,22 +120,25 @@
     border-radius: var(--radius-full);
     font-size: var(--font-size-xs);
     font-weight: 600;
-    color: var(--gray-500);
-    background: var(--white);
-    border: 1px solid var(--gray-200);
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
     transition: all var(--transition-fast);
     letter-spacing: 0.02em;
+    cursor: pointer;
 }
 
 .period-chip:hover {
-    border-color: var(--gray-300);
-    color: var(--gray-700);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .period-chip.active {
-    background: var(--gray-900);
-    color: var(--white);
-    border-color: var(--gray-900);
+    background: rgba(59, 130, 246, 0.12);
+    color: #3b82f6;
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
 }
 
 .quick-symbols {
@@ -141,7 +152,7 @@
 
 .quick-label {
     font-size: var(--font-size-xs);
-    color: var(--gray-400);
+    color: var(--text-secondary);
     font-weight: 500;
 }
 
@@ -150,15 +161,18 @@
     border-radius: var(--radius-full);
     font-size: var(--font-size-xs);
     font-weight: 600;
-    color: var(--gray-600);
-    background: var(--gray-100);
+    color: var(--text-secondary);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     transition: all var(--transition-fast);
     letter-spacing: 0.04em;
+    cursor: pointer;
 }
 
 .quick-chip:hover {
-    background: var(--gray-200);
-    color: var(--gray-900);
+    background: var(--glass-bg-hover);
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.15);
     transform: translateY(-1px);
 }
 
@@ -179,4 +193,4 @@
     .period-selector {
         gap: var(--space-1);
     }
-}
+}
