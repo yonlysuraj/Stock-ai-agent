@@ -53,20 +53,20 @@
     flex: 1;
     display: flex;
     align-items: center;
-    background: var(--white);
-    border: 1px solid var(--gray-200);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
     padding: var(--space-3) var(--space-4);
     transition: all var(--transition-fast);
 }
 
 .search-bar:focus-within {
-    border-color: var(--gray-400);
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+    border-color: var(--glass-border-hover);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .search-icon {
-    color: var(--gray-400);
+    color: var(--text-secondary);
     flex-shrink: 0;
     margin-right: var(--space-2);
 }
@@ -77,17 +77,17 @@
     background: none;
     font-size: var(--font-size-sm);
     font-weight: 500;
-    color: var(--gray-900);
+    color: var(--text-primary);
 }
 
 .search-input::placeholder {
-    color: var(--gray-400);
+    color: var(--text-secondary);
 }
 
 .search-button {
     margin-left: var(--space-2);
     padding: var(--space-2) var(--space-5);
-    background: var(--gray-900);
+    background: var(--accent);
     color: var(--white);
     border: none;
     border-radius: var(--radius-md);
@@ -102,7 +102,7 @@
 }
 
 .search-button:hover:not(:disabled) {
-    background: var(--gray-800);
+    background: var(--accent-light);
     transform: translateY(-1px);
 }
 
@@ -120,8 +120,8 @@
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    background: var(--white);
-    border: 1px solid var(--gray-200);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
     padding: var(--space-3) var(--space-4);
 }
@@ -176,8 +176,8 @@
 }
 
 .news-card {
-    background: var(--white);
-    border: 1px solid var(--gray-200);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-xl);
     overflow: hidden;
     cursor: pointer;
@@ -191,8 +191,8 @@
 
 .news-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--gray-300);
+    box-shadow: var(--glass-shadow);
+    border-color: var(--glass-border-hover);
 }
 
 .news-card-image {
@@ -233,7 +233,7 @@
 .news-card-title {
     font-size: var(--font-size-sm);
     font-weight: 600;
-    color: var(--gray-900);
+    color: var(--text-primary);
     line-height: 1.5;
     margin-bottom: var(--space-2);
     display: -webkit-box;
@@ -245,7 +245,7 @@
 
 .news-card-description {
     font-size: var(--font-size-xs);
-    color: var(--gray-600);
+    color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: var(--space-3);
     display: -webkit-box;
@@ -293,7 +293,8 @@
 }
 
 .modal-content {
-    background: var(--white);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-xl);
     max-width: 600px;
     width: 100%;

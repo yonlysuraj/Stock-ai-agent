@@ -26,9 +26,9 @@
   --gray-950: #ffffff;
 
   /* Glassmorphism Tokens - Dark Mode: Solid Dark Cards */
-  --glass-bg: rgba(15, 15, 25, 0.85);
-  --glass-bg-hover: rgba(25, 25, 40, 0.95);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(15, 15, 25, 0.75);
+  --glass-bg-hover: rgba(25, 25, 40, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.1);
   --glass-border-hover: rgba(59, 130, 246, 0.35); /* Electric Blue Outline Glow */
   --glass-blur: blur(16px);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.55);

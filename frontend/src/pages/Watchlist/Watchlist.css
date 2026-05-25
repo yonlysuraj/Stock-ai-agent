@@ -89,9 +89,9 @@
 }
 
 .watchlist-card {
-  background: var(--white);
+  background: var(--glass-bg);
   border-radius: var(--radius-xl);
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--glass-border);
   padding: var(--space-4);
   display: flex;
   flex-direction: column;
@@ -224,17 +224,19 @@
 .watchlist-compare-toggle {
   margin-top: var(--space-2);
   border-radius: var(--radius-full);
-  border: 1px dashed var(--gray-300);
+  border: 1px dashed var(--glass-border);
   padding: 0.35rem 0.75rem;
   font-size: var(--font-size-xs);
-  background: var(--white);
+  background: var(--glass-bg);
   cursor: pointer;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
 }
 
 .watchlist-compare-toggle.active {
   border-style: solid;
-  border-color: var(--gray-900);
-  background: #111827;
+  border-color: var(--accent);
+  background: var(--accent);
   color: var(--white);
 }
 
@@ -266,9 +268,9 @@
 .compare-chip {
   min-width: 200px;
   border-radius: var(--radius-xl);
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--glass-border);
   padding: var(--space-4);
-  background: var(--white);
+  background: var(--glass-bg);
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-2);
