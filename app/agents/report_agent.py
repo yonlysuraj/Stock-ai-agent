@@ -20,18 +20,17 @@ load_dotenv()
 class ReportAgent:
     """Agent responsible for generating comprehensive analysis reports"""
     
-    def __init__(self):
+    def __init__(self, model: Optional[str] = None):
         """Initialize report agent"""
         self.report_version = "1.2" # Bump version
         
         # Initialize Groq client for AI advice
         self.api_key = os.getenv("GROQ_API_KEY")
         self.client = None
+        self.model = model or os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
         if self.api_key:
             try:
                 self.client = Groq(api_key=self.api_key)
-                # Updated to a currently supported model
-                self.model = "llama-3.3-70b-versatile"
             except Exception as e:
                 print(f"Failed to initialize Groq client in ReportAgent: {e}")
     
@@ -150,12 +149,24 @@ Write a comprehensive paragraph (approx 80-100 words) that:
 
 Tone: Professional, analytical, and direct. Avoid generic disclaimers. Do not use markdown formatting.
 """
-            completion = self.client.chat.completions.create(
-                model=self.model,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.7,
-                max_tokens=300
-            )
+            try:
+                completion = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.7,
+                    max_tokens=300
+                )
+            except Exception as api_err:
+                if "model_not_found" in str(api_err) and self.model != "llama-3.1-8b-instant":
+                    self.model = "llama-3.1-8b-instant"
+                    completion = self.client.chat.completions.create(
+                        model=self.model,
+                        messages=[{"role": "user", "content": prompt}],
+                        temperature=0.7,
+                        max_tokens=300
+                    )
+                else:
+                    raise api_err
             return completion.choices[0].message.content.strip()
         except Exception as e:
             print(f"Error generating AI advice: {e}")

@@ -2,6 +2,7 @@
 LLM Provider integration - Supports Groq and OpenAI
 """
 
+import os
 from typing import Optional, Dict, Any
 from app.config import settings
 
@@ -24,7 +25,7 @@ class LLMProvider:
             if not self.api_key:
                 raise ValueError("GROQ_API_KEY not found in settings")
             self.client = Groq(api_key=self.api_key)
-            self.model = "mixtral-8x7b-32768"
+            self.model = getattr(settings, "GROQ_MODEL", None) or os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
         elif self.provider == "openai":
             try:
                 from openai import OpenAI

@@ -22,8 +22,9 @@ class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = "sqlite:///./stock_ai.db"
     
-    # API Keys
+    # API Keys & LLM Settings
     GROQ_API_KEY: Optional[str] = None
+    GROQ_MODEL: str = "llama-3.1-8b-instant"
     OPENAI_API_KEY: Optional[str] = None
     ALPHA_VANTAGE_API_KEY: Optional[str] = None
     YAHOO_FINANCE_API_KEY: Optional[str] = None

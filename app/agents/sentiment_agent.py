@@ -20,12 +20,13 @@ load_dotenv()
 class SentimentAgent:
     """Agent responsible for sentiment analysis using Groq LLM"""
     
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None):
         """
         Initialize sentiment agent with Groq API.
         
         Args:
             api_key: Groq API key. If not provided, uses GROQ_API_KEY environment variable.
+            model: Groq model name. Defaults to GROQ_MODEL env var or llama-3.1-8b-instant.
         """
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
         
@@ -33,7 +34,7 @@ class SentimentAgent:
             raise ValueError("Groq API key not provided and GROQ_API_KEY environment variable not set")
         
         self.client = Groq(api_key=self.api_key)
-        self.model = "llama-3.3-70b-versatile"  # Updated to supported model
+        self.model = model or os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
     
     def analyze_sentiment(self, texts: List[str]) -> Dict:
         """
@@ -120,17 +121,34 @@ Respond only with valid JSON in this format:
 }}"""
             
             # Use Groq's chat completions API
-            completion = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }
-                ],
-                temperature=0.3,
-                max_tokens=150
-            )
+            try:
+                completion = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": prompt
+                        }
+                    ],
+                    temperature=0.3,
+                    max_tokens=150
+                )
+            except Exception as api_err:
+                if "model_not_found" in str(api_err) and self.model != "llama-3.1-8b-instant":
+                    self.model = "llama-3.1-8b-instant"
+                    completion = self.client.chat.completions.create(
+                        model=self.model,
+                        messages=[
+                            {
+                                "role": "user",
+                                "content": prompt
+                            }
+                        ],
+                        temperature=0.3,
+                        max_tokens=150
+                    )
+                else:
+                    raise api_err
             
             response_text = completion.choices[0].message.content
             
