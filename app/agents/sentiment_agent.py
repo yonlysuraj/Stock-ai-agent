@@ -26,7 +26,7 @@ class SentimentAgent:
         
         Args:
             api_key: Groq API key. If not provided, uses GROQ_API_KEY environment variable.
-            model: Groq model name. Defaults to GROQ_MODEL env var or llama-3.1-8b-instant.
+            model: Groq model name. Defaults to GROQ_MODEL env var or llama-3.3-70b-versatile.
         """
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
         
@@ -34,7 +34,7 @@ class SentimentAgent:
             raise ValueError("Groq API key not provided and GROQ_API_KEY environment variable not set")
         
         self.client = Groq(api_key=self.api_key)
-        self.model = model or os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
+        self.model = model or os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
     
     def analyze_sentiment(self, texts: List[str]) -> Dict:
         """
@@ -120,24 +120,19 @@ Respond only with valid JSON in this format:
     "interpretation": "<brief explanation>"
 }}"""
             
-            # Use Groq's chat completions API
-            try:
-                completion = self.client.chat.completions.create(
-                    model=self.model,
-                    messages=[
-                        {
-                            "role": "user",
-                            "content": prompt
-                        }
-                    ],
-                    temperature=0.3,
-                    max_tokens=150
-                )
-            except Exception as api_err:
-                if "model_not_found" in str(api_err) and self.model != "llama-3.1-8b-instant":
-                    self.model = "llama-3.1-8b-instant"
+            # Use Groq's chat completions API with fallback models
+            fallback_models = [self.model, "llama-3.3-70b-versatile", "openai/gpt-oss-20b"]
+            models_to_try = []
+            for m in fallback_models:
+                if m and m not in models_to_try:
+                    models_to_try.append(m)
+            
+            completion = None
+            last_err = None
+            for m in models_to_try:
+                try:
                     completion = self.client.chat.completions.create(
-                        model=self.model,
+                        model=m,
                         messages=[
                             {
                                 "role": "user",
@@ -147,8 +142,17 @@ Respond only with valid JSON in this format:
                         temperature=0.3,
                         max_tokens=150
                     )
-                else:
+                    self.model = m
+                    break
+                except Exception as api_err:
+                    err_str = str(api_err).lower()
+                    if "model_not_found" in err_str or "404" in err_str or "decommissioned" in err_str or "does not exist" in err_str:
+                        last_err = api_err
+                        continue
                     raise api_err
+            
+            if completion is None and last_err:
+                raise last_err
             
             response_text = completion.choices[0].message.content
             

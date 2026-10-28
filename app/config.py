@@ -2,7 +2,7 @@
 Configuration management
 """
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional, List, Union
 import json
 
@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     
     # API Keys & LLM Settings
     GROQ_API_KEY: Optional[str] = None
-    GROQ_MODEL: str = "llama-3.1-8b-instant"
+    GROQ_MODEL: str = "llama-3.3-70b-versatile"
     OPENAI_API_KEY: Optional[str] = None
     ALPHA_VANTAGE_API_KEY: Optional[str] = None
     YAHOO_FINANCE_API_KEY: Optional[str] = None
@@ -38,10 +38,11 @@ class Settings(BaseSettings):
     # Redis (optional)
     REDIS_URL: Optional[str] = None
     
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
-        extra = "ignore"  # Ignore extra fields in .env
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        case_sensitive=True,
+        extra="ignore",  # Ignore extra fields in .env
+    )
     
     def get_cors_origins(self) -> List[str]:
         """Get CORS origins as a list, handling both string and list inputs"""

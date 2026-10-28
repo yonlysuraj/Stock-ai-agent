@@ -27,7 +27,7 @@ class ReportAgent:
         # Initialize Groq client for AI advice
         self.api_key = os.getenv("GROQ_API_KEY")
         self.client = None
-        self.model = model or os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
+        self.model = model or os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
         if self.api_key:
             try:
                 self.client = Groq(api_key=self.api_key)
@@ -66,10 +66,10 @@ class ReportAgent:
                 "timestamp": datetime.now().isoformat()
             }
         
-        data = analysis_data.get("data", {})
-        indicators = data.get("indicators", {})
-        sentiment = data.get("sentiment", {})
-        decision = data.get("decision", {})
+        data = analysis_data.get("data", {}) or {}
+        indicators = data.get("indicators", {}) or {}
+        sentiment = data.get("sentiment", {}) or {}
+        decision = data.get("decision", {}) or {}
         current_price = data.get("current_price", 0)
         
         # Generate summary
@@ -126,10 +126,50 @@ class ReportAgent:
             }
         }
     
+    def _get_client(self):
+        """Get or lazily initialize Groq client from environment"""
+        if self.client:
+            return self.client
+        api_key = os.getenv("GROQ_API_KEY")
+        if api_key and api_key.strip() and not api_key.startswith("gsk_..."):
+            try:
+                self.api_key = api_key.strip()
+                self.client = Groq(api_key=self.api_key)
+                return self.client
+            except Exception as e:
+                print(f"Failed to initialize Groq client in ReportAgent: {e}")
+        return None
+
+    def _fallback_ai_advice(self, ticker: str, price: float, decision: dict, sentiment: dict, indicators: dict) -> str:
+        """Generate heuristic financial advice when LLM is unavailable or API key is not configured"""
+        action = decision.get("action", "HOLD")
+        confidence = decision.get("confidence", 0.6)
+        rsi = indicators.get("rsi", 50)
+        macd = indicators.get("macd", 0)
+        ma20 = indicators.get("ma20", price)
+        sentiment_label = sentiment.get("overall_sentiment", "NEUTRAL") if sentiment else "NEUTRAL"
+        risk_data = self._assess_risk(indicators, decision, sentiment)
+        risk_level = risk_data.get("level", "MODERATE")
+
+        action_phrase = {
+            "BUY": f"bullish momentum setup for {ticker}, supported by positive technical confluence",
+            "SELL": f"distribution pattern for {ticker}, signaling potential downside correction risks",
+            "HOLD": f"consolidation phase for {ticker}, warranting patience for clearer directional breakout"
+        }.get(action, f"balanced market structure on {ticker}")
+
+        return (
+            f"{ticker} is currently trading at ${price:.2f} within a {risk_level.lower()}-risk framework. "
+            f"Technical indicators show RSI at {rsi:.1f} and MACD at {macd:.2f} relative to the 20-day moving average (${ma20:.2f}), "
+            f"pointing to a {action_phrase}. With broader market sentiment assessed as {sentiment_label.lower()}, "
+            f"the recommended strategy is a {action} position (confidence: {confidence:.0%}) "
+            f"supported by disciplined stop-loss execution near key moving average support levels."
+        )
+
     def _generate_ai_advice(self, ticker: str, price: float, decision: dict, sentiment: dict, indicators: dict) -> str:
         """Generate smart investment advice using LLM"""
-        if not self.client:
-            return "AI Advice unavailable (API Key missing)."
+        client = self._get_client()
+        if not client:
+            return self._fallback_ai_advice(ticker, price, decision, sentiment, indicators)
 
         try:
             prompt = f"""You are an expert senior financial strategist. 
@@ -149,28 +189,37 @@ Write a comprehensive paragraph (approx 80-100 words) that:
 
 Tone: Professional, analytical, and direct. Avoid generic disclaimers. Do not use markdown formatting.
 """
-            try:
-                completion = self.client.chat.completions.create(
-                    model=self.model,
-                    messages=[{"role": "user", "content": prompt}],
-                    temperature=0.7,
-                    max_tokens=300
-                )
-            except Exception as api_err:
-                if "model_not_found" in str(api_err) and self.model != "llama-3.1-8b-instant":
-                    self.model = "llama-3.1-8b-instant"
-                    completion = self.client.chat.completions.create(
-                        model=self.model,
+            fallback_models = [self.model, "llama-3.3-70b-versatile", "openai/gpt-oss-20b"]
+            models_to_try = []
+            for m in fallback_models:
+                if m and m not in models_to_try:
+                    models_to_try.append(m)
+            
+            completion = None
+            last_err = None
+            for m in models_to_try:
+                try:
+                    completion = client.chat.completions.create(
+                        model=m,
                         messages=[{"role": "user", "content": prompt}],
                         temperature=0.7,
                         max_tokens=300
                     )
-                else:
+                    self.model = m
+                    break
+                except Exception as api_err:
+                    err_str = str(api_err).lower()
+                    if "model_not_found" in err_str or "404" in err_str or "decommissioned" in err_str or "does not exist" in err_str:
+                        last_err = api_err
+                        continue
                     raise api_err
+            
+            if completion is None and last_err:
+                raise last_err
             return completion.choices[0].message.content.strip()
         except Exception as e:
             print(f"Error generating AI advice: {e}")
-            return "AI Advice currently unavailable."
+            return self._fallback_ai_advice(ticker, price, decision, sentiment, indicators)
 
     def _generate_summary(self, ticker: str, price: float, decision: dict, sentiment: dict) -> str:
         """Generate a text summary of the analysis"""

@@ -51,7 +51,7 @@ Expand the **Environment Variables** section and add the following keys:
 | Key | Value | Description |
 | :--- | :--- | :--- |
 | `GROQ_API_KEY` | `your_groq_api_key_here` | Required for AI analysis |
-| `GROQ_MODEL` | `llama-3.1-8b-instant` | (Optional) Model to use (defaults to `llama-3.1-8b-instant`) |
+| `GROQ_MODEL` | `llama-3.3-70b-versatile` | (Optional) Model to use (defaults to `llama-3.3-70b-versatile`) |
 | `VITE_API_BASE` | *(Leave empty)* | Leave value empty to use relative paths |
 
 *   **Note**: `VITE_API_BASE` is used by the frontend to talk to the backend. By leaving it empty, the frontend will automatically make requests to `/api/...` on the same domain, which avoids CORS issues.
